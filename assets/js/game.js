@@ -1,10 +1,3 @@
-// Add Play again feature
-// wrap game logic in a startGame() function
-// when player is defeated or there are no enenmies, call endGame() function that:
-// 1. alerts the player's total stats
-// 2. asks player to play again
-// 3. if yes call startGame() to restart game
-
 //Add Shop Feature after defeating enemy
 // After player defeats or skips (and there are enemies remaining) ask players if they want to "shop."
 // if NO continue as normal
@@ -123,6 +116,15 @@ var startGame = function () {
 
       // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
       fight(pickedEnemyName);
+      // if player has health and is not at the last robot in the array
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        var storeConfirm = window.confirm(
+          "the fight is over, visit the store before the next round?"
+        );
+        if (storeConfirm) {
+          shop();
+        }
+      }
     } else {
       window.alert("Your robot has kicked it. GAMER OVER NERD");
       break;
@@ -134,7 +136,7 @@ var startGame = function () {
 var endGame = function () {
   if (playerHealth > 0) {
     window.alert(
-      "You survied... this time. Your final score is" + playerMoney + "."
+      "You survied... this time. Your final score is " + playerMoney + "."
     );
   } else {
     window.alert(
@@ -146,6 +148,48 @@ var endGame = function () {
     startGame();
   } else {
     window.alert("Thank you for playing! Come back soon!");
+  }
+};
+
+var shop = function () {
+  var shopOptionPrompt = window.prompt(
+    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+  );
+  switch (shopOptionPrompt) {
+    case "REFILL":
+    case "refill":
+      if (playerMoney >= 7) {
+        window.alert(
+          "refilling" + playerName + "'s health by 20 for 7 dollars."
+        );
+
+        playerHealth = playerHealth + 20;
+        playerMoney = playerMoney - 7;
+      } else {
+        window.alert("You broke bitch. Come back when you have more money.");
+      }
+      break;
+    case "upgrade":
+    case "UPGRADE":
+      if (playerMoney >= 7) {
+        window.alert(
+          "Upgrading " + playerName + "'s Attack by 6 for 7 dollars"
+        );
+
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      } else {
+        window.alert("You broke bitch. Come back when you have more money.");
+      }
+      break;
+    case "leave":
+    case "LEAVE":
+      window.alert("Leaving the store.");
+      break;
+    default:
+      window.alert("you didn't choose a valid option. Try again.");
+      shop();
+      break;
   }
 };
 
