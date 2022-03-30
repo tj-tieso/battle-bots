@@ -1,3 +1,20 @@
+// Add Play again feature
+// wrap game logic in a startGame() function
+// when player is defeated or there are no enenmies, call endGame() function that:
+// 1. alerts the player's total stats
+// 2. asks player to play again
+// 3. if yes call startGame() to restart game
+
+//Add Shop Feature after defeating enemy
+// After player defeats or skips (and there are enemies remaining) ask players if they want to "shop."
+// if NO continue as normal
+// if YES, call shop() function
+// In the shop() function, ask player if they want to "refill" health, "upgrade" attack, or "leave" the shop.
+// REFILL, subtract money points from player and increase health
+// UPGRADE, subtract money points from player and increase attack power
+// LEAVE, alert goodbye and exit function
+// If any other invalid option, call shop() again
+
 // var playerName
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
@@ -85,22 +102,51 @@ var fight = function (enemyName) {
   } // end of WHILE loop
 }; // end of FIGHT function
 
-// run fight function to start game
-for (var i = 0; i < enemyNames.length; i++) {
-  if (playerHealth > 0) {
-    // Round Alert
-    window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+// function to start a new game
+var startGame = function () {
+  //reset player stats
+  playerHealth = 100;
+  playerAttack = 10;
+  playerMoney = 10;
 
-    // pick new enemy to fight based on the index of the enemyNames array
-    var pickedEnemyName = enemyNames[i];
+  // run fight function to start game
+  for (var i = 0; i < enemyNames.length; i++) {
+    if (playerHealth > 0) {
+      // Round Alert
+      window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
 
-    // reset enemyHealth before starting new fight
-    enemyHealth = 50;
+      // pick new enemy to fight based on the index of the enemyNames array
+      var pickedEnemyName = enemyNames[i];
 
-    // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-    fight(pickedEnemyName);
-  } else {
-    window.alert("Your robot has kicked it. GAMER OVER NERD");
-    break;
+      // reset enemyHealth before starting new fight
+      enemyHealth = 50;
+
+      // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+      fight(pickedEnemyName);
+    } else {
+      window.alert("Your robot has kicked it. GAMER OVER NERD");
+      break;
+    }
   }
-}
+  endGame();
+};
+
+var endGame = function () {
+  if (playerHealth > 0) {
+    window.alert(
+      "You survied... this time. Your final score is" + playerMoney + "."
+    );
+  } else {
+    window.alert(
+      "Your tactics and guile have been measured and found wanting. You Lose."
+    );
+  }
+  var playAgainConfirm = window.confirm("Would you like to try again?");
+  if (playAgainConfirm) {
+    startGame();
+  } else {
+    window.alert("Thank you for playing! Come back soon!");
+  }
+};
+
+startGame();
