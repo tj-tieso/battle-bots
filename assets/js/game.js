@@ -1,5 +1,7 @@
-// fight function
+//Game state
+// ===fin
 
+// fight function
 var fight = function (enemy) {
   while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
