@@ -152,13 +152,24 @@ var startGame = function () {
 var endGame = function () {
   window.alert("the game has ended. lets see how you did!");
 
-  if (playerInfo.health > 0) {
-    window.alert(
-      "You survied... this time. Your final score is " + playerInfo.money + "."
-    );
+  // check localStorage for highscore, if its not there use 0
+  var highscore = localStorage.getItem("highscore");
+  if (highscore === null) {
+    highscore = 0;
+  }
+
+  //if the player has more money than localStorage highscore, player has new high score
+  if (playerInfo.money > highscore) {
+    localStorage.setItem("highscore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money);
   } else {
-    window.alert(
-      "Your tactics and guile have been measured and found wanting. You Lose."
+    alert(
+      playerInfo.name +
+        " did not beat the high score of " +
+        highscore +
+        ". Better luck next time"
     );
   }
 
